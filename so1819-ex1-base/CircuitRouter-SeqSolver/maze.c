@@ -150,7 +150,7 @@ static void addToGrid (grid_t* gridPtr, vector_t* vectorPtr, char* type){
  * =============================================================================
  */
 
-long maze_read (maze_t* mazePtr){
+long maze_read (maze_t* mazePtr, FILE *inpfp, FILE *outfp){
     
     /*
      * Parse input from stdin
@@ -164,9 +164,10 @@ long maze_read (maze_t* mazePtr){
     vector_t* wallVectorPtr = mazePtr->wallVectorPtr;
     vector_t* srcVectorPtr = mazePtr->srcVectorPtr;
     vector_t* dstVectorPtr = mazePtr->dstVectorPtr;
+
+    while (fgets(line, sizeof(line), inpfp)) {
+ 
     
-    while (fgets(line, sizeof(line), stdin)) {
-        
         char code;
         long x1, y1, z1;
         long x2, y2, z2;
@@ -233,7 +234,7 @@ long maze_read (maze_t* mazePtr){
         
     } /* iterate over lines in input file */
     
-    
+
     /*
      * Initialize grid contents
      */
@@ -248,8 +249,8 @@ long maze_read (maze_t* mazePtr){
     addToGrid(gridPtr, wallVectorPtr, "wall");
     addToGrid(gridPtr, srcVectorPtr,  "source");
     addToGrid(gridPtr, dstVectorPtr,  "destination");
-    printf("Maze dimensions = %li x %li x %li\n", width, height, depth);
-    printf("Paths to route  = %li\n", list_getSize(workListPtr));
+    fprintf(outfp, "Maze dimensions = %li x %li x %li\n", width, height, depth);
+    fprintf(outfp, "Paths to route  = %li\n", list_getSize(workListPtr));
     
     /*
      * Initialize work queue
@@ -270,7 +271,7 @@ long maze_read (maze_t* mazePtr){
  * maze_checkPaths
  * =============================================================================
  */
-bool_t maze_checkPaths (maze_t* mazePtr, list_t* pathVectorListPtr, bool_t doPrintPaths){
+bool_t maze_checkPaths (maze_t* mazePtr, list_t* pathVectorListPtr, FILE *outfp){
     grid_t* gridPtr = mazePtr->gridPtr;
     long width  = gridPtr->width;
     long height = gridPtr->height;
@@ -358,11 +359,8 @@ bool_t maze_checkPaths (maze_t* mazePtr, list_t* pathVectorListPtr, bool_t doPri
             }
         } /* iteratate over pathVector */
     } /* iterate over pathVectorList */
-
-    if (doPrintPaths) {
-        puts("\nRouted Maze:");
-        grid_print(testGridPtr);
-    }
+    fprintf(outfp, "\nRouted Maze:");
+    grid_print(testGridPtr, outfp);
 
     grid_free(testGridPtr);
 
