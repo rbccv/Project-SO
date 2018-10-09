@@ -3,10 +3,8 @@ Project of SO in C programming language
 
 Links:
 
-https://www.cs.bu.edu/teaching/c/file-io/intro/
+https://stackoverflow.com/questions/876605/multiple-child-process
 
-http://pubs.opengroup.org/onlinepubs/009695299/functions/access.html
+https://stackoverflow.com/questions/9147760/how-to-get-child-pid-in-c
 
-https://support.sas.com/documentation/onlinedoc/sasc/doc/lr2/execv.htm
-
-http://linguagemc.com.br/argumentos-em-linha-de-comando/
+https://www.ibm.com/support/knowledgecenter/en/SSLTBW_2.1.0/com.ibm.zos.v2r1.bpxbd00/rtwaip.htm
